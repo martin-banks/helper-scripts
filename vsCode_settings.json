@@ -1,14 +1,16 @@
 {
-  "window.zoomLevel": -1,
+  "reference": "https://code.visualstudio.com/docs/getstarted/theme-color-reference",
+  "window.zoomLevel": -2,
   "workbench.colorTheme": "Ayu Mirage",
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
   "editor.insertSpaces": true,
-  "editor.fontSize": 16,
+  "editor.fontSize": 18,
   "editor.fontFamily": "Fira Code",
   "editor.fontWeight": 100,
   "editor.fontLigatures": true,
-  "editor.lineHeight": "28px",
+  "editor.lineHeight": 30,
+  "workbench.fontAliasing": "antialiased",
   "editor.wordWrap": "on",
   "editor.multiCursorModifier": "ctrlCmd",
   "editor.renderWhitespace": "boundary",
@@ -18,36 +20,58 @@
   },
   "workbench.startupEditor": "newUntitledFile",
   "editor.tokenColorCustomizations": {
-      "comments": "#4e5b6a",
-      "textMateRules": [
-        {
-          "scope": "punctuation.quasi.element.begin.js",
-          "settings" : {
-            "foreground": "#ffc800"
-          }
-        },
-        {
-          "scope": "punctuation.quasi.element.end.js",
-          "settings" : {
-            "foreground": "#ffc800"
-          }
-        },
-        {
-          "scope": "string.quasi.js",
-          "settings": {
-            "foreground": "#a5e080",
-          }
+    "comments": "#4e5b6a",
+    "textMateRules": [
+      {
+        "scope": "punctuation.quasi.element.begin.js",
+        "settings" : {
+          "foreground": "#cf66d8"
         }
-      ]
-
-
-
+      },
+      {
+        "scope": "punctuation.quasi.element.end.js",
+        "settings" : {
+          "foreground": "#cf66d8"
+        }
+      },
+      {
+        "scope": "punctuation.definition.template-expression.begin.js",
+        "settings" : {
+          "foreground": "#cf66d8"
+        }
+      },
+      {
+        "scope": "punctuation.definition.template-expression.end.js",
+        "settings" : {
+          "foreground": "#cf66d8"
+        }
+      },
+      {
+        "scope": "string.quasi.js",
+        "settings": {
+          "foreground": "#cee9bd",
+        }
+      },
+      {
+        "scope": "string.template.js",
+        "settings": {
+          "foreground": "#c0fc9b",
+        }
+      },
+      {
+        "scope": "textCodeBlock",
+        "settings": {
+        }
+      }
+    ]
   },
   "workbench.colorCustomizations": {
-    "[Cobalt2]": {
-      "sideBar.background": "#0f171c",
-      "editor.background": "#192126"
-    },
+    "editor.background": "#19202b",
+    // "activityBar.background": "#000",
+    "editor.lineHighlightBackground": "#00000066",
+    "terminal.background": "#10141a",
+    "tab.activeBackground": "#19202b",
+    "tab.activeBorder": "#fff700",
+    "tab.unfocusedActiveBorder": "#8f8c29"
   }
 }
-
