@@ -1,0 +1,43 @@
+<div>
+  <div data-app="container"></div>
+  <script>
+    (function(){
+      var interactive = 'https://cdn.knightlab.com/libs/juxtapose/latest/embed/index.html?uid=88761f5a-1d0d-11e8-b263-0edaf8f81e27';
+      var deviceWidth = {
+        mobile: 450,
+        desktop: 650,
+      };
+      var heightAt650 = {
+        mobile: 650,
+        desktop: 650,
+      };
+      var container = document.currentScript.parentNode.querySelector('[data-app="container"]');
+      var device = container.offsetWidth > deviceWidth.mobile ? 'desktop' : 'mobile';
+      var iframe = document.createElement('iframe');
+      var makeiframe = function() {
+        iframe.style.cssText = [
+          'position: relative',
+          'display: block',
+          'width: 100%',
+          'height: ' + Math.min(((heightAt650[device] / deviceWidth[device]) * container.offsetWidth), 650) + 'px',
+          'border: none',
+          'overflow: hidden',
+          'margin: 32px auto',
+        ].join(';');
+        iframe.setAttribute('src', interactive);
+        iframe.setAttribute('scrolling', 'no');
+        container.innerHTML = '';
+        container.appendChild(iframe);
+      };
+      var resizeTimeout = null;
+      var handleResize = function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+          makeiframe();
+        }, 1000);
+      };
+      makeiframe();
+      window.addEventListener('resize', handleResize)
+    })();
+  </script>
+</div>
