@@ -1,0 +1,53 @@
+{
+  "window.zoomLevel": -1,
+  "workbench.colorTheme": "Ayu Mirage",
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false,
+  "editor.insertSpaces": true,
+  "editor.fontSize": 16,
+  "editor.fontFamily": "Fira Code",
+  "editor.fontWeight": 100,
+  "editor.fontLigatures": true,
+  "editor.lineHeight": "28px",
+  "editor.wordWrap": "on",
+  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.renderWhitespace": "boundary",
+
+  "files.exclude": {
+    "**/.git": false
+  },
+  "workbench.startupEditor": "newUntitledFile",
+  "editor.tokenColorCustomizations": {
+      "comments": "#4e5b6a",
+      "textMateRules": [
+        {
+          "scope": "punctuation.quasi.element.begin.js",
+          "settings" : {
+            "foreground": "#ffc800"
+          }
+        },
+        {
+          "scope": "punctuation.quasi.element.end.js",
+          "settings" : {
+            "foreground": "#ffc800"
+          }
+        },
+        {
+          "scope": "string.quasi.js",
+          "settings": {
+            "foreground": "#a5e080",
+          }
+        }
+      ]
+
+
+
+  },
+  "workbench.colorCustomizations": {
+    "[Cobalt2]": {
+      "sideBar.background": "#0f171c",
+      "editor.background": "#192126"
+    },
+  }
+}
+
