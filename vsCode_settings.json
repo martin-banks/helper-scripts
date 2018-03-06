@@ -7,7 +7,7 @@
   "editor.insertSpaces": true,
   "editor.fontSize": 18,
   "editor.fontFamily": "Fira Code",
-  "editor.fontWeight": 100,
+  "editor.fontWeight": "100",
   "editor.fontLigatures": true,
   "editor.lineHeight": 30,
   "workbench.fontAliasing": "antialiased",
