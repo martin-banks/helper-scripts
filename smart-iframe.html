@@ -1,0 +1,59 @@
+
+<div>
+  <div data-app="container">
+    <iframe id="interactiveiframe"
+      src="http://path/to/interactive" 
+      frameborder="0"
+      scrolling="no"
+      style="
+        position: relative;
+        display: block;
+        width: 100%;
+        height: 300px;
+        border: none;
+        overflow: hidden;
+        margin: 32px auto;
+      "
+    ></iframe>
+  </div>
+  <script>
+    "use strict"
+    (function(){
+      // Width / height pairs through different breakpoints
+      var shapes = [
+        [ 0, 590 ],
+        [ 375, 710 ],
+        [ 645, 790 ],
+        [ 767, 920 ],
+        [ 900, 660 ],
+      ];
+      var container = document.currentScript.parentNode.querySelector('[data-app="container"]');
+      var iframe = container.querySelector('iframe#interactiveiframe');
+      var updateIframe = function() {
+        var useHeight = null;
+        // var widthKeys = Object.keys(deviceWidths);
+        for (var i = 0; i < shapes.length; i++) {
+          if ((container.offsetWidth >= shapes[i][0]) && (container.offsetWidth < shapes[i + 1][0])) {
+            useHeight = shapes[i][1];
+            break;
+          } else {
+            continue;
+          };
+        };
+        iframe.style.height = useHeight + 'px';
+      };
+      var resizeTimeout = null;
+      var handleResize = function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(function() {
+          updateIframe();
+        }, 500);
+      };
+      updateIframe();
+      window.addEventListener('resize', handleResize);
+      document.addEventListener('DOMContentLoaded', updateIframe);
+    })();
+  </script>
+</div>
+
+
