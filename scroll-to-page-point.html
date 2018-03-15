@@ -1,9 +1,103 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <style>
+    #dna-customlinks {
+      position: relative;
+      display: block;
+      margin: 32px auto;
+    }
+    #dna-customlinks #dna-customlinks-wrapper {
+      padding: 32px 0;
+    }
+    #dna-customlinks #dna-customlinks-wrapper a {
+      position: relative;
+      display: block;
+      font-family: 'Unit Slab Pro Bold', 'Roboto', sans-serif;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    #dna-customlinks #dna-customlinks-wrapper a:last-of-type {
+      margin-bottom: 0;
+    }
+    @media screen and (min-width: 960px) {
+      #dna-customlinks {
+        padding: 32px 32px;
+      }
+      h2.dna-custom-anchor {
+        padding: 0 32px;
+      }
+    }
+    @media screen and (min-width: 960px) {
+      #dna-customlinks[data-template="longform"] {
+        padding: 32px 2.6rem;
+      }
+      [data-template="longform"] h2.dna-custom-anchor {
+        padding: 0 2.6rem;
+      }
+    }
+    #dna-customlinks[data-template="nca"] {
+      padding: 32px 0;
+    }
+    h2.dna-custom-anchor {
+      font-family: 'Unit Slab Pro Bold', 'Roboto', sans-serif;
+      font-size: 24px;
+      margin: 24px 0 8px 0;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="dna-customlinks">
+    <div id="dna-customlinks-wrapper">
+      <a href="#extract-1">Read first extract</a>
+      <a href="#extract-2">Read second extract</a>
+      <a href="#extract-3">Read third extract</a>
+    </div>
+  </div>
+
+  <h2 id="dna-first-anchor" class="dna-custom-anchor">Crosshead text</h2>
+  
+</body>
+<script>
+  function detectTemplate () {
+    if (!!document.querySelector('.newscomau')) {
+      return 'nca';
+    } else if (!!document.querySelector('[data-color-scheme]')) {
+      return 'longform';
+    } else if (!!document.querySelector('.content .story')) {
+      return 'mhr';
+    }
+  }
+  document.querySelector('#dna-customlinks').setAttribute('data-template', detectTemplate());
+  function offsetAnchor() {
+    if (location.hash.length !== 0) {
+      window.scrollTo(window.scrollX, window.scrollY - 100);
+    };
+  };
+  window.addEventListener('hashchange', offsetAnchor);
+  setTimeout(offsetAnchor, 1);
+</script>
+</html>
+
+
+
+
 
 <!-- Crosshead embed to act as anchor -->
-<h2 id="unique_link_id">Cross head words here</h2>
 
 
 <!-- Script embed to offset scroll -->
+
+<!-- 
+
+<div>
+
+  <a href="#unique_link_id">Link to header</a>
+</div>
 <div>
   <script>
     function offsetAnchor() {
@@ -12,8 +106,34 @@
       };
     };
     window.addEventListener('hashchange', offsetAnchor);
-    window.setTimeout(offsetAnchor, 1);
+    setTimeout(offsetAnchor, 1);
   </script>
+  <a href="#unique_link_id">Link to header</a>
 </div>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+<p>Lorem</p>
+
+<h2 id="unique_link_id" class="dna-custom-anchor-header">Cross head words here</h2>
 
 
+Eu dolor duis tempor voluptate. Aute qui voluptate dolor ut proident reprehenderit consequat incididunt elit. Non consectetur nisi commodo aliquip magna fugiat dolor esse do est ad est. Nulla laborum quis voluptate et mollit tempor pariatur elit elit voluptate mollit esse. Pariatur irure nostrud cillum Lorem in do aliqua irure ullamco nulla consectetur anim.
+
+ -->
