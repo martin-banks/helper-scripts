@@ -1,0 +1,68 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>DNA Custom Project</title>
+  <style>
+    [data-type="dna-custom-app"] {
+      margin: 32px auto
+    }
+    [data-type="dna-custom-app"][data-theme="light"] {
+      background: white;
+    }
+    @media screen and (min-width: 960px) {
+      [data-type="dna-custom-app"] {
+        padding: 32px 32px;
+      }
+      [data-type="dna-custom-app"][data-longform] {
+        padding: 32px 2.6rem;
+      }
+      [data-type="dna-custom-app"][data-nca] {
+        padding: 32px 0;
+      }
+    }
+
+    [data-type="dna-custom-app"][data-whimn] {
+      padding: 32px 0;
+    }
+    [data-type="dna-custom-app"] .dna-custom-app {
+      padding: 32px 0;
+      border-top: solid 1px #e2e2e2;
+      border-bottom: solid 1px #e2e2e2;
+    }
+  </style>
+</head>
+<body>
+  <!-- This div is part of the embed code -->
+  <div data-type="dna-custom-app">
+    <div class="dna-custom-app">
+      <!-- App in here -->
+    </div>
+  </div>
+</body>
+
+<script>
+var appWrapper = document.querySelector('[data-type="dna-custom-app"]')
+var about = {
+  nca: !!document.querySelector('.newscomau'),
+  whimn: window.location.host === 'www.whimn.com.au' || !!document.querySelector('[property="og:site_name"][content="whimn"]'),
+  mhr: !!document.querySelector('.content .story'),
+  longform: !!document.querySelector('[data-color-scheme]'),
+  theme: document.querySelector('[data-color-scheme="dark"]') ? 'dark' : 'light',
+  mobile: /iPad|Android|webOS|iPhone|iPod|Blackberry/.test(navigator.userAgent) && !window.MSStream,
+  isTestEnv: ['localhost', '127.0.0.1'].indexOf(window.location.hostname) !== -1,
+  isPreview: ['media.news.com.au'].indexOf(window.location.hostname) !== -1,
+}
+
+Object.keys(about).forEach(function(key) {
+  if (about[key]) {
+    var attr = 'data-' + key
+    appWrapper.setAttribute(attr, about[key])
+  }
+})
+
+
+
+</script>
+</html>
