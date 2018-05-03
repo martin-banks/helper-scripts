@@ -1,6 +1,6 @@
 {
-  "reference": "https://code.visualstudio.com/docs/getstarted/theme-color-reference",
-  "window.zoomLevel": -2,
+  // "reference": "https://code.visualstudio.com/docs/getstarted/theme-color-reference",
+  "window.zoomLevel": -1,
   "workbench.colorTheme": "Ayu Mirage",
   "editor.tabSize": 2,
   "editor.detectIndentation": false,
@@ -14,6 +14,10 @@
   "editor.wordWrap": "on",
   "editor.multiCursorModifier": "ctrlCmd",
   "editor.renderWhitespace": "boundary",
+
+  "emmet.includeLanguages": {
+    "javascript": "html"
+  },
 
   "files.exclude": {
     "**/.git": false
@@ -49,18 +53,19 @@
       {
         "scope": "string.quasi.js",
         "settings": {
-          "foreground": "#cee9bd",
+          "foreground": "#a9f778",
         }
       },
       {
         "scope": "string.template.js",
         "settings": {
-          "foreground": "#c0fc9b",
+          "foreground": "#a9f778",
         }
       },
       {
-        "scope": "textCodeBlock",
+        "scope": "entity.quasi.element.js",
         "settings": {
+          "foreground": "#fff"
         }
       }
     ]
@@ -73,5 +78,13 @@
     "tab.activeBackground": "#19202b",
     "tab.activeBorder": "#fff700",
     "tab.unfocusedActiveBorder": "#8f8c29"
-  }
+  },
+
+  "eslint.validate": [
+    "javascript", {
+      "language": "vue",
+      "autoFix": true
+    }
+  ]
+
 }
