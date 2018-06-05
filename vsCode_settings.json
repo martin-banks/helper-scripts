@@ -1,10 +1,10 @@
 {
   "reference": "https://code.visualstudio.com/docs/getstarted/theme-color-reference",
-  "window.zoomLevel": 0,
-  "workbench.colorTheme": "Ayu Mirage",
+  "window.zoomLevel": -1,
+  "workbench.colorTheme": "Night Owl",
    "editor.tabSize": 2,
    "editor.insertSpaces": true,
-   "editor.detectIndentation": true,
+   "editor.detectIndentation": false,
    "editor.fontSize": 20,
    "editor.fontFamily": "Fira Code",
    "editor.fontWeight": "300",
@@ -24,9 +24,15 @@
    },
    "workbench.startupEditor": "newUntitledFile",
    "editor.tokenColorCustomizations": {
-     "comments": "#4e5b6a",
 
      "textMateRules": [
+       {
+         "scope": "variable.language.this.js",
+         "settings": {
+           "foreground": "#c5b244",
+           "fontStyle": "bold italic"
+         }
+       },
        {
          "scope": "punctuation.quasi.element.begin.js",
          "settings" : {
