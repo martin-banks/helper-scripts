@@ -45,13 +45,13 @@
       {
         "scope": "punctuation.quasi.element.begin.js",
         "settings": {
-          "foreground": "#"
+          "foreground": "#cca4fa"
         }
       },
       {
         "scope": "punctuation.quasi.element.end.js",
         "settings": {
-          "foreground": "#cf66d8"
+          "foreground": "#cca4fa"
         }
       },
       {
