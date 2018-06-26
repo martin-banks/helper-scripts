@@ -279,8 +279,10 @@ function normalizeHeaders_(headers) {
 function normalizeHeader_(header) {
   var key = "";
   var upperCase = false;
-  for (var i = 0; i < header.length; ++i) {
-    var letter = header[i];
+  var cleanedHeader = header.replace(/\s+/g, '_');
+ 
+  for (var i = 0; i < cleanedHeader.length; ++i) {
+    var letter = cleanedHeader[i];
     if (letter == " " && key.length > 0) {
       upperCase = true;
       continue;
@@ -298,7 +300,8 @@ function normalizeHeader_(header) {
       key += letter.toLowerCase();
     }
   }
-  return key;
+  //return key;
+  return header;
 }
 
 // Returns true if the cell where cellData was read from is empty.
