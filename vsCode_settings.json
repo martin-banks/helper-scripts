@@ -30,6 +30,12 @@
         }
       },
       {
+        "scope": "meta.method.declaration storage.type.js",
+        "settings": {
+          "foreground": "#c686d6"
+        }
+      },
+      {
         "scope": "entity.name.function",
         "settings": {
           "foreground": "#71a4d3"
