@@ -24,6 +24,7 @@ const CFG = require('./src/config.json')
 const args = {
   colors: true,
   thumbs: true,
+  rename: true,
 }
 
 process.argv
@@ -45,8 +46,9 @@ const thumbQuality = quality.thumb
 const images = PATH.join(__dirname, imageLocation)
 
 const renamed = file => {
+  if (!args.rename) return file
   return file
-    // .replace(' ', '')
+    .replace(' ', '')
     // .split('_')
     // .slice(2, (file.length - 1))
     // .join('_')
