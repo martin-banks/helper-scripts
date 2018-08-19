@@ -6,34 +6,43 @@
 // https://www.npmjs.com/package/imagemagick
 // https://github.com/rsms/node-imagemagick
 
-const im = require('imagemagick')
-const fs = require('fs')
-const mkdirp = require('mkdirp')
-const path = require('path')
+const IM = require('imagemagick')
+const FS = require('fs')
+const MKDIRP = require('mkdirp')
+const PATH = require('path')
 const C = require('colors')
-const mv = require('mv')
-const getsize = require('image-size')
-const vibrant = require('node-vibrant')
+const MV = require('mv')
+const GETSIZE = require('image-size')
+const VIBRANT = require('node-vibrant')
 const ora = require('ora')
 
 // config options for project including image processing spec and locations
 // is controlled from a json file in src.
 // here it is imported and value destructured
-const imagesConfig = require('./images.config.json')
-const args = process.argv
-const newLocation = args
-  .filter(a => a.toUpperCase().includes('LOCATION'))
-  .map(a => a.replace(/LOCATION=/i, ''))
+const CFG = require('./src/config.json')
 
+const args = {
+  colors: true,
+  thumbs: true,
+}
 
-const { sizes, thumbBlurLarge, thumbBlurSmall, location: imageLocation, quality } = imagesConfig
+process.argv
+  .slice(0 - process.argv.length + 2)
+  .forEach(a => {
+    const arg = a.split('=').map(x => x.toLowerCase())
+    args[arg[0]] = arg[1] === 'true'
+  })
+
+console.log({ args })
+
+const { sizes, thumbBlurLarge, thumbBlurSmall, location: imageLocation, quality } = CFG.images
 const { min, max, inc } = sizes
 const thumbSize = sizes.thumb
 const imageQuality = quality.image
 const thumbQuality = quality.thumb
 
 // define the image location from config to be used for all processes
-const images = path.join(__dirname, imageLocation)
+const images = PATH.join(__dirname, imageLocation)
 
 const renamed = file => {
   return file
@@ -54,7 +63,7 @@ const manifestTemplate = (name, size, file) => `export { default as ${CFG.jsPref
 // Promise based function pieces to enable syncronus processing of images
 async function makeDir (path) {
   return new Promise(async (resolve, reject) => {
-    mkdirp(path, err => {
+    MKDIRP(path, err => {
       if (err) reject(`ERROR CREATING DIRECTORY: ${path}\n${err}`)
       resolve(`${path} successfully created`)
     })
@@ -72,7 +81,7 @@ function makeIncrementDir (size) {
 }
 async function convertImage ({ file, options }) {
   return new Promise(async (resolve, reject) => {
-    im.convert(options, error => {
+    IM.convert(options, error => {
       if (error) reject(error)
       resolve('increment created')
     })
@@ -80,7 +89,7 @@ async function convertImage ({ file, options }) {
 }
 async function moveFile (file) {
   return new Promise((resolve, reject) => {
-    mv(`${images}/_RAW/${file}`, `${images}/_RAW/_DONE/${file}`, moveError => {
+    MV(`${images}/_RAW/${file}`, `${images}/_RAW/_DONE/${file}`, moveError => {
       if (moveError) reject(moveError)
       resolve('written and moved')
     })
@@ -88,7 +97,7 @@ async function moveFile (file) {
 }
 async function writeFile ({ path, content }) {
   return new Promise((resolve, reject) => {
-    fs.writeFile(path, content, writeError => {
+    FS.writeFile(path, content, writeError => {
       if (writeError) reject(writeError)
       resolve(`${path} created`)
     })
@@ -98,6 +107,10 @@ async function writeFile ({ path, content }) {
 // creates the predefinded thumbnail types
 async function createThumbs (file) {
   return new Promise(async (resolve, reject) => {
+    if (!args.thumbs) {
+      resolve('Thumbs skipped')
+      return
+    }
     await convertImage({ 
       file, 
       options: [
@@ -167,8 +180,8 @@ async function createImageIncrements ({ file, manifest }) {
 async function createAllImages() {
   return new Promise((resolve, reject) => {
     // first get a list of all images in the folder
-    console.log('\n', path.join(images, '_RAW'))
-    fs.readdir(path.join(images, '_RAW'), async (readDirError, files) => {
+    console.log('\n', PATH.join(images, '_RAW'))
+    FS.readdir(PATH.join(images, '_RAW'), async (readDirError, files) => {
       if (readDirError) reject(err)
       // Filter that list for unsupported files and begin processing the reaminder
       // -- currently only jpg are supported) --
@@ -186,29 +199,34 @@ async function createAllImages() {
             C.bgBlack('\ue0b0').white
           ]
           console.log(imageLog.join(''))
-          const imagepath = `${images}/_RAW/${file}`
+          const imagePath = `${images}/_RAW/${file}`
           await createThumbs(file)
-          spinner.succeed(`${file}: Thumbs created`)
+          spinner.succeed(`${file}: Thumbs ${args.thumbs ? 'finished' : 'skipped'}`)
           spinner.start(file)
           await createImageIncrements({ file, manifest })
           spinner.succeed(`${file}: All increments created`)
           spinner.start(file)
-          const imgData = await getsizes(imagepath)
-          const colors = await getColors(imagepath)
-          manifest.push(manifestTemplate('thumb', 'thumb', renamed(file)))
-          manifest.push(manifestTemplate('thumbBlurSmall', 'thumbBlurSmall', renamed(file)))
-          manifest.push(manifestTemplate('thumbBlurLarge', 'thumbBlurLarge', renamed(file)))
+          const imgData = await getSizes(imagePath)
+          const colors = await getColors(imagePath)
+          if (args.thumbs) {
+            manifest.push(manifestTemplate('thumb', 'thumb', renamed(file)))
+            manifest.push(manifestTemplate('thumbBlurSmall', 'thumbBlurSmall', renamed(file)))
+            manifest.push(manifestTemplate('thumbBlurLarge', 'thumbBlurLarge', renamed(file)))
+          }
           manifest.push(imgData)
           manifest.push(colors)
           manifest.push('')
-          await writeFile({ path: `${images}/${renamed(file).split('.jpg')[0]}.js`, content: manifest.join(';\n')})
+          const content = manifest
+            .filter(m => m.length)
+            .join(';\n')
+          await writeFile({ path: `${images}/${renamed(file).split('.jpg')[0]}.js`, content })
           await moveFile(file)
+          resolve('Increments complete')
           spinner.stop()
         } catch (err) {
           reject(err)
         }
-      } // end for-of loop
-      resolve('Increments complete')
+      }
     })
   })
 }
@@ -227,23 +245,27 @@ function makeRGBInt (obj) {
   }, {})
 }
 
-function getColors (imagepath) {
+function getColors (imagePath) {
   return new Promise ((resolve, rejct) => {
-    vibrant
-      .from(imagepath)
+    if (!args.colors) {
+      // return resolve(`export const colors = false`)
+      return resolve('')
+    }
+    VIBRANT
+      .from(imagePath)
       .getPalette((err, pal) => {
         if (err) return reject(err)
         const colors = makeRGBInt(pal)
         // low color pictures do not always generate a vibrant color pallette
-        if (!colors.vibrant) colors.vibrant = { _rgb: [0, 0, 0] }
+        if (!colors.Vibrant) colors.Vibrant = { _rgb: [0, 0, 0] }
         const colorData = `export const colors = ${JSON.stringify(colors, 'utf-8', 2)}`
         resolve(colorData)
       })
   })
 }
-function getsizes (imagepath) {
+function getSizes (imagePath) {
   return new Promise((resolve, rejct) => {
-    const fileDimensions = getsize(imagepath)
+    const fileDimensions = GETSIZE(imagePath)
     const { width, height } = fileDimensions
     const ratio = height / width
     const orientation = width > height ? 'landscape' : 'portrait'
