@@ -1,0 +1,24 @@
+{
+  "name": "_helper-scripts",
+  "version": "1.0.0",
+  "description": "",
+  "main": "aftereffects-countup.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/martin-banks/helper-scripts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/martin-banks/helper-scripts/issues"
+  },
+  "homepage": "https://github.com/martin-banks/helper-scripts#readme",
+  "dependencies": {
+    "base64-img": "^1.0.4",
+    "mkdirp": "^0.5.1"
+  }
+}
