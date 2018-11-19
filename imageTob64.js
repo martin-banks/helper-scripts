@@ -55,8 +55,8 @@ function b64Sync (file) {
       const jsModule = `export default \`${content}\``
       console.log('📄  ', 'Processing',{ file, name })
       try {
-        await writeFile({ filename: `${name}.txt`, content })
-        await writeFile({ filename: `${name}.js`, content: jsModule })
+        await writeFile({ filename: `${name}-${ext}.txt`, content })
+        await writeFile({ filename: `${name}-${ext}.js`, content: jsModule })
         resolve(`${file} successfully processed`)
       } catch (err) {
         return reject(err)
