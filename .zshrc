@@ -117,3 +117,4 @@ source $ZSH/oh-my-zsh.sh
 alias makeproject="node ~/PROJECTS_STASH/t3interactives/templates/createNewProject.js $1"
 alias makegitignore="node ~/PROJECTS_GITHUB/_helper-scripts/createGitIgnore.js $1"
 alias imagetob64="node ~/PROJECTS_GITHUB/_helper-scripts/imageTob64.js $1"
+alias cleanjson="node ~/PROJECTS_GIHUT/_helper-scripts/json-cleaner.js $1"
