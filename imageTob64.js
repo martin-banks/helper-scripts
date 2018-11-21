@@ -5,6 +5,13 @@ const mkdirp = require('mkdirp')
 
 const args = process.argv.slice(2)
 const dir = args.length && args.find(a => a.startsWith('dir='))
+const skip = {
+  txt: args.length && args.find(a => a.startsWith('txt=')) === 'txt=false',
+  js: args.length && args.find(a => a.startsWith('js=')) === 'js=false',
+}
+
+console.log('\n', JSON.stringify({ args, skip }, null, 2), '\n')
+
 const cwd = process.cwd()
 const destination = 'b64'
 const whitelist = [
@@ -15,7 +22,7 @@ const whitelist = [
   'svg',
 ]
 
-console.log('🤖  ', 'Processing image files in: ', cwd)
+console.log('🤖   ', 'Processing image files in: ', cwd)
 
 function getFiles () {
   return new Promise((resolve, reject) => {
@@ -53,10 +60,10 @@ function b64Sync (file) {
         .slice(0, -1)
         .join('.')
       const jsModule = `export default \`${content}\``
-      console.log('📄  ', 'Processing',{ file, name })
+      console.log('📷  ', 'Processing',{ file, name })
       try {
-        await writeFile({ filename: `${name}-${ext}.txt`, content })
-        await writeFile({ filename: `${name}-${ext}.js`, content: jsModule })
+        !skip.txt && await writeFile({ filename: `${name}-${ext}.txt`, content })
+        !skip.js && await writeFile({ filename: `${name}-${ext}.js`, content: jsModule })
         resolve(`${file} successfully processed`)
       } catch (err) {
         return reject(err)
@@ -67,15 +74,15 @@ function b64Sync (file) {
 
 async function processFiles () {
   try {
-    console.log('👓  ', 'Reading file list...')
+    console.log('👓   ', 'Reading file list...')
     const files = await getFiles()
     if (!files.length) {
-      console.log('🚫  ', 'No files to process.\n-- End of Line --')
+      console.log('\n🚫  ', 'No files to process.\n-- End of Line --\n')
       return
     }
-    console.log('📁  ', 'Creating export folder:\n', destination)
+    console.log('📁   ', 'Creating export folder: ', destination, '\n')
     await mkdirp.sync(path.join(cwd, destination))
-    console.log(files)
+    console.log(`📁   Files to process: ${JSON.stringify(files, null, 2)} \n`)
 
     for await (const file of files) {
       try {
@@ -85,7 +92,7 @@ async function processFiles () {
       }
     }
 
-    console.log('🏁  ', 'All files processed\n-- End of Line--')
+    console.log('\n🏁   ', 'All files processed\n-- End of Line --\n')
   } catch (err) {
     console.log(err)
   }
