@@ -1,24 +1,29 @@
 const fs = require('fs')
 const path = require('path')
 
-const args = process.argv.slice(2)
 const cwd = process.cwd()
+const args = process.argv.slice(2)
+const filesToProcess = args.filter(a => !a.startsWith('-'))
 
-console.log({ args })
+// Can take some arguments to change processing settings
+//   -u -> will create a uniquely name file
+const options = args.filter(a => a.startsWith('-'))
 
-args.forEach(arg => {
-  console.log(`Processing file: ${arg}`)
+console.log({ args, filesToProcess, options })
 
-  fs.readFile(path.join(cwd, arg), 'utf8', (err, data) => {
+filesToProcess.forEach(file => {
+  console.log(`Processing file: ${file}`)
+
+  fs.readFile(path.join(cwd, file), 'utf8', (err, data) => {
     if (err) return console.log(err)
-
-    const filename = arg
+    const suffix = options.includes('-u') ? `.${Date.now()}` : ''
+    const filename = file
       .split('.')
-      .join('-cleaned.')
+      .join(`.cleaned${suffix}.`)
 
     const parsedContent = JSON.parse(data)
-      .reduce((output, item) => {
-        const update = output
+      .reduce((parsedOutput, item) => {
+        const parsedUpdate = parsedOutput
 
         const corrections = Object.keys(item)
           .reduce((output, key) => {
@@ -29,7 +34,7 @@ args.forEach(arg => {
             if (typeof item[key] === 'string') {
               update[key] = item[key]
                 .replace(/“|”|``|’’|‘‘/gi, '"')
-                .replace(/‘|’/gi, "'")
+                .replace(/‘|’|`/gi, "'")
                 .replace(/\s\s+/gi, ' ')
                 .replace(/\r|\n/gi, '')
                 .trim()
@@ -37,22 +42,12 @@ args.forEach(arg => {
             return update
           }, {})
 
-        update.push(corrections)
-        return update
+        parsedUpdate.push(corrections)
+        return parsedUpdate
       }, [])
 
-    fs.writeFile(path.join(cwd, `_${filename}`), JSON.stringify(parsedContent, null, 2), err => {
-      console.log(err || `_${filename}, complete`)
-    })
-
-    const cleaned = data
-      .replace(/“|”|``|’’|‘‘/gi, '\\"')
-      .replace(/‘|’/gi, "'")
-      .replace(/\s\s+/gi, ' ')
-      .replace(/\r|\n/gi, '')
-
-    fs.writeFile(path.join(cwd, filename), cleaned, err => {
-      console.log(err || `${filename}, complete`)
+    fs.writeFile(path.join(cwd, `${filename}`), JSON.stringify(parsedContent, null, 2), writeErr => {
+      console.log(writeErr || `${filename}, complete`)
     })
   })
 })
