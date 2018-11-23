@@ -11,6 +11,15 @@ const options = args.filter(a => a.startsWith('-'))
 
 console.log({ args, filesToProcess, options })
 
+const brackets = [
+  [1, 10],
+  [11, 20],
+  [21, 40],
+  [41, 60],
+  [61, 80],
+  [81, 100],
+]
+
 filesToProcess.forEach(file => {
   console.log(`Processing file: ${file}`)
 
@@ -49,5 +58,13 @@ filesToProcess.forEach(file => {
     fs.writeFile(path.join(cwd, `${filename}`), JSON.stringify(parsedContent, null, 2), writeErr => {
       console.log(writeErr || `${filename}, complete`)
     })
+    if (options.includes('-b')) {
+      brackets.forEach(b => {
+        const range = parsedContent.slice(b[0] - 1, b[1])
+        fs.writeFile(path.join(cwd, `${b[0]}-${b[1]}.${filename}`), JSON.stringify(range, null, 2), writeErr => {
+          console.log(writeErr || `${b[0]}-${b[1]}.${filename}, complete`)
+        })    
+      })
+    }
   })
 })
