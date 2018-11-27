@@ -56,6 +56,7 @@ function b64Sync (file) {
         .split('.')
         .slice(-1)[0]
       const name = file
+        .replace(/^_\d+/i, '') // remove index numbher from PS layer to image export
         .split('.')
         .slice(0, -1)
         .join('.')
