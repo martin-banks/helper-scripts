@@ -19,6 +19,6 @@
   "homepage": "https://github.com/martin-banks/helper-scripts#readme",
   "dependencies": {
     "base64-img": "^1.0.4",
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^0.5.6"
   }
 }
